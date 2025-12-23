@@ -91,7 +91,9 @@
         line-height: 1.6;
       }
 
-      button {
+      a.cta-button {
+        display: inline-block;
+        text-decoration: none;
         font-size: 1.1rem;
         font-weight: 600;
         padding: 0.95rem 2.5rem;
@@ -104,19 +106,19 @@
         box-shadow: 0 12px 30px rgba(255, 117, 140, 0.35);
       }
 
-      button span {
+      a.cta-button span {
         display: block;
         font-size: 0.85rem;
         font-weight: 400;
       }
 
-      button:hover,
-      button:focus-visible {
+      a.cta-button:hover,
+      a.cta-button:focus-visible {
         transform: translateY(-4px) scale(1.02);
         box-shadow: 0 18px 35px rgba(255, 117, 140, 0.45);
       }
 
-      button:active {
+      a.cta-button:active {
         transform: translateY(-1px);
       }
     </style>
@@ -126,10 +128,10 @@
     <main>
       <h1>Happy Birthday Annika!!!</h1>
       <p>Ready to begin your adventure? The clues await your brilliant mind.</p>
-      <button type="button">
+      <a class="cta-button" href="call.html">
         Click Here
         <span>to start your Scavenger hunt</span>
-      </button>
+      </a>
     </main>
   </body>
 </html>
