@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Annika!!!</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle at 20% 20%, #ffe0f2, transparent 45%),
+          radial-gradient(circle at 80% 0, #e7f4ff, transparent 40%),
+          radial-gradient(circle at 50% 80%, #fef6d3, transparent 35%),
+          #fefefe;
+        color: #351f39;
+        overflow: hidden;
+      }
+
+      .sparkles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.6) 20%,
+            transparent 22%
+          ),
+          radial-gradient(circle, rgba(255, 255, 255, 0.4) 20%, transparent 22%);
+        background-size: 120px 120px, 150px 150px;
+        animation: twinkle 6s linear infinite;
+      }
+
+      @keyframes twinkle {
+        from {
+          transform: translate3d(0, 0, 0);
+        }
+        to {
+          transform: translate3d(-50px, 40px, 0);
+        }
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        width: min(90vw, 480px);
+        padding: 3rem 2.5rem;
+        border-radius: 28px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.75);
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      h1 {
+        margin: 0 0 1.5rem;
+        font-size: clamp(2.25rem, 6vw, 3rem);
+        background: linear-gradient(120deg, #ef476f, #ffd166, #06d6a0, #118ab2);
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: shimmer 5s ease infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      p {
+        margin: 0 0 2rem;
+        font-size: 1rem;
+        color: #584b5c;
+        line-height: 1.6;
+      }
+
+      button {
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 0.95rem 2.5rem;
+        border: 0;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ff7eb3, #ff758c 60%, #ff9770);
+        color: #fff;
+        cursor: pointer;
+        transition: transform 250ms ease, box-shadow 250ms ease;
+        box-shadow: 0 12px 30px rgba(255, 117, 140, 0.35);
+      }
+
+      button span {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 400;
+      }
+
+      button:hover,
+      button:focus-visible {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 18px 35px rgba(255, 117, 140, 0.45);
+      }
+
+      button:active {
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sparkles" aria-hidden="true"></div>
+    <main>
+      <h1>Happy Birthday Annika!!!</h1>
+      <p>Ready to begin your adventure? The clues await your brilliant mind.</p>
+      <button type="button">
+        Click Here
+        <span>to start your Scavenger hunt</span>
+      </button>
+    </main>
+  </body>
+</html>
