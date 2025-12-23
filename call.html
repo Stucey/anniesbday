@@ -49,6 +49,10 @@
         opacity: 0;
       }
 
+      .call-image.collapsed {
+        display: none;
+      }
+
       .tap-overlay {
         position: absolute;
         inset: 0;
@@ -140,6 +144,11 @@
       const answerCall = () => {
         overlay.classList.add("hidden");
         callImage.classList.add("hidden");
+        callImage.addEventListener(
+          "transitionend",
+          () => callImage.classList.add("collapsed"),
+          { once: true }
+        );
         chime.pause();
         chime.currentTime = 0;
         video.classList.add("active");
@@ -171,7 +180,7 @@
       });
 
       video.addEventListener("error", () => {
-        statusText.textContent = "Video file missing (john_pork_video.mp4)";
+        statusText.textContent = "Video file missing (john_pork_call.mp4)";
       });
     </script>
   </body>
