@@ -182,6 +182,13 @@
       video.addEventListener("error", () => {
         statusText.textContent = "Video file missing (john_pork_call.mp4)";
       });
+
+      video.addEventListener("ended", () => {
+        statusText.textContent = "Heading back to the tiles…";
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1200);
+      });
     </script>
   </body>
 </html>

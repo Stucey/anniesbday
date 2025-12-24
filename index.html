@@ -17,19 +17,19 @@
         margin: 0;
         min-height: 100vh;
         font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         background: radial-gradient(circle at 20% 20%, #ffe0f2, transparent 45%),
           radial-gradient(circle at 80% 0, #e7f4ff, transparent 40%),
           radial-gradient(circle at 50% 80%, #fef6d3, transparent 35%),
           #fefefe;
-        color: #351f39;
-        overflow: hidden;
+        color: #2f1f3a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(1.5rem, 4vw, 3rem);
       }
 
       .sparkles {
-        position: absolute;
+        position: fixed;
         inset: 0;
         pointer-events: none;
         background-image: radial-gradient(
@@ -54,25 +54,29 @@
       main {
         position: relative;
         z-index: 1;
-        width: min(90vw, 480px);
-        padding: 3rem 2.5rem;
+        width: min(1100px, 100%);
+        padding: clamp(1.5rem, 3vw, 2.75rem);
         border-radius: 28px;
-        text-align: center;
-        background: rgba(255, 255, 255, 0.75);
+        background: rgba(255, 255, 255, 0.78);
         box-shadow: 0 25px 80px rgba(0, 0, 0, 0.12);
         backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.6);
       }
 
+      header {
+        text-align: center;
+        margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+      }
+
       h1 {
-        margin: 0 0 1.5rem;
-        font-size: clamp(2.25rem, 6vw, 3rem);
+        margin: 0 0 0.5rem;
+        font-size: clamp(2rem, 4vw, 3rem);
         background: linear-gradient(120deg, #ef476f, #ffd166, #06d6a0, #118ab2);
         background-size: 200% auto;
         color: transparent;
         -webkit-background-clip: text;
         background-clip: text;
-        animation: shimmer 5s ease infinite;
+        animation: shimmer 6s ease infinite;
       }
 
       @keyframes shimmer {
@@ -84,54 +88,115 @@
         }
       }
 
-      p {
-        margin: 0 0 2rem;
-        font-size: 1rem;
+      .subtitle {
+        margin: 0;
         color: #584b5c;
-        line-height: 1.6;
+        font-size: 1.05rem;
+        line-height: 1.5;
       }
 
-      a.cta-button {
-        display: inline-block;
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(1rem, 2vw, 1.5rem);
+      }
+
+      .tile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 1.4rem 1.5rem;
+        border-radius: 20px;
         text-decoration: none;
-        font-size: 1.1rem;
-        font-weight: 600;
-        padding: 0.95rem 2.5rem;
-        border: 0;
+        color: inherit;
+        background: linear-gradient(145deg, #ffffff, #f4efff);
+        border: 1px solid rgba(53, 31, 57, 0.08);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+      }
+
+      .tile:hover,
+      .tile:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12);
+        border-color: rgba(53, 31, 57, 0.2);
+      }
+
+      .tile h2 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+
+      .tile p {
+        margin: 0;
+        color: #665a6c;
+        line-height: 1.5;
+        font-size: 0.98rem;
+      }
+
+      .badge {
+        align-self: flex-start;
+        padding: 0.3rem 0.7rem;
         border-radius: 999px;
-        background: linear-gradient(135deg, #ff7eb3, #ff758c 60%, #ff9770);
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
         color: #fff;
-        cursor: pointer;
-        transition: transform 250ms ease, box-shadow 250ms ease;
-        box-shadow: 0 12px 30px rgba(255, 117, 140, 0.35);
+        background: linear-gradient(135deg, #ff7eb3, #ff9770);
       }
 
-      a.cta-button span {
-        display: block;
-        font-size: 0.85rem;
-        font-weight: 400;
+      .tile.secondary {
+        background: linear-gradient(145deg, #f1fff5, #e6f8ff);
       }
 
-      a.cta-button:hover,
-      a.cta-button:focus-visible {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 18px 35px rgba(255, 117, 140, 0.45);
+      .tile.disabled {
+        background: #f7f5fb;
+        color: #8a7f92;
+        border: 1px dashed rgba(53, 31, 57, 0.2);
+        box-shadow: none;
+        cursor: default;
+        pointer-events: none;
       }
 
-      a.cta-button:active {
-        transform: translateY(-1px);
+      .tile.disabled .badge {
+        background: #b8afc4;
       }
     </style>
   </head>
   <body>
     <div class="sparkles" aria-hidden="true"></div>
     <main>
-      <h1>Happy Birthday Annika!!!</h1>
-      <p>Ready to begin your adventure? The clues await your brilliant mind.</p>
-      <a class="cta-button" href="call.html">
-        Click Here
-        <span>to start your Scavenger hunt</span>
-      </a>
+      <header>
+        <h1>Happy Birthday Annika!!!</h1>
+        <p class="subtitle">
+          Choose a tile to continue your scavenger hunt.
+        </p>
+      </header>
+
+      <section class="tiles">
+        <a class="tile" href="call.html">
+          <span class="badge">Start here</span>
+          <h2>A message from your pal</h2>
+        </a>
+
+        <a class="tile secondary" href="challenge-a.html">
+          <span class="badge">Difficulty: Hard</span>
+          <h2>Challenge A</h2>
+          <p>Sun is shining? Give this challenge a crack to get your clues.</p>
+        </a>
+
+        <a class="tile secondary" href="challenge-a.html">
+          <span class="badge">Challenge A</span>
+          <h2>Wordle clue</h2>
+          <p>Play the custom Wordle, then enter the winning word to unlock the next hint.</p>
+        </a>
+
+        <div class="tile disabled" aria-disabled="true">
+          <span class="badge">Locked</span>
+          <h2>Mystery meet-up</h2>
+          <p>Details to come—keep collecting clues to unlock this stop.</p>
+        </div>
+      </section>
     </main>
   </body>
 </html>
