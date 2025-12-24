@@ -185,18 +185,59 @@
           <p>Sun is shining? Give this challenge a crack to get your clues.</p>
         </a>
 
-        <a class="tile secondary" href="challenge-a.html">
-          <span class="badge">Challenge A</span>
-          <h2>Wordle clue</h2>
-          <p>Play the custom Wordle, then enter the winning word to unlock the next hint.</p>
+        <a
+          id="challenge-b-tile"
+          class="tile secondary disabled"
+          aria-disabled="true"
+          data-href="challenge-b.html"
+          data-unlock-date="2025-12-27"
+        >
+          <span class="badge">Locked</span>
+          <h2>Challenge B</h2>
+          <p class="lock-message">Unlocks on 27 Dec 2025.</p>
         </a>
 
-        <div class="tile disabled" aria-disabled="true">
+        <a
+          id="challenge-c-tile"
+          class="tile secondary disabled"
+          aria-disabled="true"
+          data-href="challenge-c.html"
+          data-unlock-date="2025-12-28"
+        >
           <span class="badge">Locked</span>
-          <h2>Mystery meet-up</h2>
-          <p>Details to come—keep collecting clues to unlock this stop.</p>
-        </div>
+          <h2>Challenge C</h2>
+          <p class="lock-message">Unlocks on 28 Dec 2025.</p>
+        </a>
+
       </section>
     </main>
+    <script>
+      (() => {
+        const tiles = Array.from(document.querySelectorAll("[data-unlock-date]"));
+        const today = new Date();
+
+        tiles.forEach((tile) => {
+          const unlockDateString = tile.dataset.unlockDate;
+          const targetHref = tile.dataset.href;
+          if (!unlockDateString || !targetHref) return;
+
+          const unlockDate = new Date(`${unlockDateString}T00:00:00`);
+          if (Number.isNaN(unlockDate.getTime())) return;
+
+          if (today >= unlockDate) {
+            tile.classList.remove("disabled");
+            tile.removeAttribute("aria-disabled");
+            tile.href = targetHref;
+
+            const badge = tile.querySelector(".badge");
+            if (badge) badge.textContent = "Unlocked";
+
+            const lockMessage = tile.querySelector(".lock-message");
+            if (lockMessage) lockMessage.textContent = "Ready to play!";
+          }
+        });
+      })();
+    </script>
+
   </body>
 </html>

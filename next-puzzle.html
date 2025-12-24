@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Next Puzzle</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: radial-gradient(circle at 20% 20%, #ffe0f2, transparent 45%),
+          radial-gradient(circle at 80% 0, #e7f4ff, transparent 40%),
+          #fefefe;
+        color: #2f1f3a;
+      }
+
+      main {
+        width: min(520px, 100%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2.25rem 2rem;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.9rem, 4vw, 2.4rem);
+        background: linear-gradient(120deg, #ef476f, #ffd166, #06d6a0, #118ab2);
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: shimmer 6s ease infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      p {
+        margin: 0 0 1.5rem;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: #3f3a52;
+      }
+
+      a.button {
+        display: inline-block;
+        padding: 0.85rem 1.25rem;
+        border-radius: 999px;
+        text-decoration: none;
+        background: linear-gradient(135deg, #06d6a0, #118ab2);
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 12px 30px rgba(17, 138, 178, 0.3);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      a.button:hover,
+      a.button:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 34px rgba(17, 138, 178, 0.4);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 1rem;
+        color: #5d4a68;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover,
+      .back-link:focus-visible {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Ready for the next puzzle?</h1>
+      <p>Nice work! Use the link below to open the jigsaw puzzle.</p>
+      <a class="button" href="https://puzzel.org/en/jigsaw/play?p=-OhEJpaYTKPu-y5UZpXI" target="_blank" rel="noopener">
+        Open the jigsaw
+      </a>
+      <div>
+        <a class="back-link" href="index.html">Back to tiles</a>
+      </div>
+    </main>
+  </body>
+</html>

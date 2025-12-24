@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Challenge B - Wordsearch</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: radial-gradient(circle at 20% 20%, #ffe0f2, transparent 45%),
+          radial-gradient(circle at 80% 0, #e7f4ff, transparent 40%),
+          #fefefe;
+        color: #2f1f3a;
+      }
+
+      main {
+        width: min(520px, 100%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2.25rem 2rem;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.9rem, 4vw, 2.4rem);
+        background: linear-gradient(120deg, #ef476f, #ffd166, #06d6a0, #118ab2);
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: shimmer 6s ease infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      p {
+        margin: 0 0 1.25rem;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: #3f3a52;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        align-items: stretch;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 0.85rem 1.25rem;
+        border-radius: 999px;
+        text-decoration: none;
+        background: linear-gradient(135deg, #06d6a0, #118ab2);
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 12px 30px rgba(17, 138, 178, 0.3);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 34px rgba(17, 138, 178, 0.4);
+      }
+
+      button.button {
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      label {
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 0.35rem;
+        color: #4d3a57;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        border: 1px solid #d7cce6;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+      }
+
+      input[type="text"]:focus {
+        border-color: #06d6a0;
+        box-shadow: 0 0 0 3px rgba(17, 138, 178, 0.2);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 1rem;
+        color: #5d4a68;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover,
+      .back-link:focus-visible {
+        text-decoration: underline;
+      }
+
+      .status {
+        margin-top: 0.75rem;
+        font-weight: 600;
+      }
+
+      .status.error {
+        color: #c22e5a;
+      }
+
+      .status.success {
+        color: #1a8d4d;
+      }
+
+      .qr-wrapper {
+        margin-top: 1rem;
+        display: none;
+      }
+
+      .qr-wrapper img {
+        max-width: 240px;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Challenge B: Wordsearch</h1>
+      <p>
+        Download the wordsearch, solve it, then take <strong>every 4th letter</strong> to reveal the answer.
+      </p>
+
+      <div class="actions">
+        <a class="button" href="wordsearch.xlsx" download>Download the wordsearch</a>
+
+        <div>
+          <label for="wordsearch-answer">Enter the hidden phrase</label>
+          <input
+            id="wordsearch-answer"
+            type="text"
+            name="wordsearch-answer"
+            placeholder="Type the hidden phrase"
+            autocomplete="off"
+          />
+        </div>
+
+        <button id="check-b-answer" class="button" type="button">Check answer</button>
+
+        <p id="b-status" class="status" role="status" aria-live="polite"></p>
+      </div>
+
+      <div id="qr-wrapper" class="qr-wrapper">
+        <p class="status success">You got it! Tickets are below.</p>
+        <img src="images/qrCode" alt="QR code for the next clue" />
+      </div>
+
+      <a class="back-link" href="index.html">Back to tiles</a>
+    </main>
+
+    <script>
+      (() => {
+        const input = document.getElementById("wordsearch-answer");
+        const button = document.getElementById("check-b-answer");
+        const status = document.getElementById("b-status");
+        const qrWrapper = document.getElementById("qr-wrapper");
+        const targets = new Set(["tarongazoo", "tarongozoo"]);
+
+        const normalize = (value) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+        function showMessage(message, type = "") {
+          status.textContent = message;
+          status.className = `status ${type}`.trim();
+        }
+
+        function checkAnswer() {
+          const guess = normalize(input.value);
+          if (!guess) {
+            showMessage("");
+            qrWrapper.style.display = "none";
+            return;
+          }
+
+          if (targets.has(guess)) {
+            showMessage("Correct! QR unlocked below.", "success");
+            qrWrapper.style.display = "block";
+          } else {
+            showMessage("Not quite—double check every 4th letter.", "error");
+            qrWrapper.style.display = "none";
+          }
+        }
+
+        button.addEventListener("click", checkAnswer);
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            checkAnswer();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

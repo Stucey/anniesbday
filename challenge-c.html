@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Challenge C - Crossword</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: radial-gradient(circle at 20% 20%, #ffe0f2, transparent 45%),
+          radial-gradient(circle at 80% 0, #e7f4ff, transparent 40%),
+          #fefefe;
+        color: #2f1f3a;
+      }
+
+      main {
+        width: min(700px, 100%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2.25rem 2rem;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.9rem, 4vw, 2.5rem);
+        background: linear-gradient(120deg, #ef476f, #ffd166, #06d6a0, #118ab2);
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: shimmer 6s ease infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      p {
+        margin: 0 0 1.1rem;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: #3f3a52;
+      }
+
+      .image-card {
+        margin: 1.25rem auto 1.5rem;
+        padding: 0.75rem;
+        border-radius: 16px;
+        background: linear-gradient(145deg, #ffffff, #f4efff);
+        border: 1px solid rgba(53, 31, 57, 0.08);
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+      }
+
+      .image-card img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        align-items: stretch;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 0.85rem 1.25rem;
+        border-radius: 999px;
+        text-decoration: none;
+        background: linear-gradient(135deg, #06d6a0, #118ab2);
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 12px 30px rgba(17, 138, 178, 0.3);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 34px rgba(17, 138, 178, 0.4);
+      }
+
+      button.button {
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      label {
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        margin-top: 0.5rem;
+        margin-bottom: 0.35rem;
+        color: #4d3a57;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        border: 1px solid #d7cce6;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+      }
+
+      input[type="text"]:focus {
+        border-color: #06d6a0;
+        box-shadow: 0 0 0 3px rgba(17, 138, 178, 0.2);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 1.25rem;
+        color: #5d4a68;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover,
+      .back-link:focus-visible {
+        text-decoration: underline;
+      }
+
+      .status {
+        margin-top: 0.4rem;
+        font-weight: 600;
+      }
+
+      .status.error {
+        color: #c22e5a;
+      }
+
+      .status.success {
+        color: #1a8d4d;
+      }
+
+      .steps {
+        margin-top: 1.25rem;
+        text-align: left;
+        padding: 1rem 1.1rem;
+        border-radius: 16px;
+        background: linear-gradient(145deg, #f1fff5, #e6f8ff);
+        border: 1px solid rgba(17, 138, 178, 0.15);
+      }
+
+      .steps h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.05rem;
+        color: #265b6a;
+      }
+
+      .steps p {
+        margin: 0 0 0.75rem;
+        color: #375560;
+      }
+
+      .steps ol {
+        margin: 0;
+        padding-left: 1.25rem;
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .steps li {
+        color: #2f1f3a;
+        background: #fff;
+        border-radius: 10px;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid rgba(17, 138, 178, 0.12);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
+        list-style: decimal;
+      }
+
+      .steps li.hidden {
+        display: none;
+      }
+
+      .steps .button {
+        width: auto;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Challenge C: Crossword</h1>
+      <p>
+        Solve the crossword, study the completed grid below, then answer the final question to unlock your clue.
+      </p>
+
+      <div class="image-card">
+        <img src="images/crossword_answer.png" alt="Completed crossword grid" />
+      </div>
+
+      <div class="actions">
+        <a
+          class="button"
+          href="https://crosswordlabs.com/embed/2025-12-24-338"
+          target="_blank"
+          rel="noopener"
+        >
+          Open the crossword
+        </a>
+
+        <div>
+          <label for="crossword-answer">What time is our booking?</label>
+          <input
+            id="crossword-answer"
+            type="text"
+            name="crossword-answer"
+            placeholder="Type your answer"
+            autocomplete="off"
+          />
+        </div>
+
+        <button id="check-c-answer" class="button" type="button">Check answer</button>
+
+        <p id="c-status" class="status" role="status" aria-live="polite"></p>
+      </div>
+
+      <section id="steps-wrapper" class="steps" style="display: none">
+        <h2>Follow these steps</h2>
+        <p>Reveal each instruction one at a time.</p>
+        <ol id="step-list"></ol>
+        <button id="show-next-step" class="button" type="button">Show next step</button>
+      </section>
+
+      <a class="back-link" href="index.html">Back to tiles</a>
+    </main>
+
+    <script>
+      (() => {
+        const input = document.getElementById("crossword-answer");
+        const button = document.getElementById("check-c-answer");
+        const status = document.getElementById("c-status");
+        const targets = new Set(["sevenpm", "7pm"]);
+        const stepsWrapper = document.getElementById("steps-wrapper");
+        const stepList = document.getElementById("step-list");
+        const showNextStepButton = document.getElementById("show-next-step");
+        const steps = [
+          "Start at 51 Grantham St, Carlton NSW 2218.",
+          "Walk about 16 min (1.1 km): head northeast on Grantham St toward Percival St.",
+          "Turn right onto Union St.",
+          "Turn left onto Dalley St.",
+          "Turn right onto Guinea St.",
+          "Turn left onto Robertson St.",
+          "Turn right onto Paine St.",
+          "Turn left onto Victoria Way.",
+          "Turn right onto Station St and cross the road; destination will be on the right.",
+          "Enter via STR/LFT St, take the stairs, pass the fare gate, and take the stairs again.",
+          "At Kogarah Station, board Train T4 Bondi Junction via Central (Platform 3, Stop ID: 2217193); ride through Rockdale, Wolli Creek, Sydenham, Redfern, Central, Town Hall, and Martin Place.",
+          "At Martin Place, take the escalator, pass the fare gate, take the stairs, and exit via STR Elizabeth E.",
+          "Walk about 5 min (250 m): head west on Martin Pl toward Elizabeth St, then turn left onto Castlereagh St.",
+          "Arrive at Aalia Restaurant Sydney, Shop 7.07-7.08/25 Martin Pl, Sydney NSW 2000."
+        ];
+        let revealedCount = 0;
+
+        const normalize = (value) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+        function showMessage(message, type = "") {
+          status.textContent = message;
+          status.className = `status ${type}`.trim();
+        }
+
+        function checkAnswer() {
+          const guess = normalize(input.value);
+          if (!guess) {
+            showMessage("");
+            return;
+          }
+
+          if (targets.has(guess)) {
+            showMessage("Correct! See you at 7pm.", "success");
+            revealedCount = 1;
+            renderSteps();
+            stepsWrapper.style.display = "block";
+            showNextStepButton.disabled = false;
+          } else {
+            showMessage("Not quite—peek back at the crossword grid.", "error");
+            stepsWrapper.style.display = "none";
+          }
+        }
+
+        function renderSteps() {
+          stepList.innerHTML = "";
+          steps.forEach((step, index) => {
+            const li = document.createElement("li");
+            li.textContent = step;
+            li.className = index < revealedCount ? "" : "hidden";
+            stepList.appendChild(li);
+          });
+          if (revealedCount >= steps.length) {
+            showNextStepButton.disabled = true;
+          }
+        }
+
+        function showNextStep() {
+          if (revealedCount < steps.length) {
+            revealedCount += 1;
+            renderSteps();
+          }
+        }
+
+        button.addEventListener("click", checkAnswer);
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            checkAnswer();
+          }
+        });
+        showNextStepButton.addEventListener("click", showNextStep);
+      })();
+    </script>
+  </body>
+</html>

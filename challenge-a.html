@@ -72,7 +72,7 @@
         align-items: stretch;
       }
 
-      a.button {
+      .button {
         display: inline-block;
         padding: 0.85rem 1.25rem;
         border-radius: 999px;
@@ -84,10 +84,16 @@
         transition: transform 180ms ease, box-shadow 180ms ease;
       }
 
-      a.button:hover,
-      a.button:focus-visible {
+      .button:hover,
+      .button:focus-visible {
         transform: translateY(-2px);
         box-shadow: 0 16px 34px rgba(255, 117, 140, 0.45);
+      }
+
+      button.button {
+        border: none;
+        cursor: pointer;
+        width: 100%;
       }
 
       label {
@@ -126,6 +132,19 @@
       .back-link:focus-visible {
         text-decoration: underline;
       }
+
+      .status {
+        margin-top: 0.75rem;
+        font-weight: 600;
+      }
+
+      .status.error {
+        color: #c22e5a;
+      }
+
+      .status.success {
+        color: #1a8d4d;
+      }
     </style>
   </head>
   <body>
@@ -142,9 +161,47 @@
           <label for="wordle-answer">Enter the Wordle answer</label>
           <input id="wordle-answer" type="text" name="wordle-answer" placeholder="Type the winning word" />
         </div>
+
+        <button id="check-answer" class="button" type="button">Check answer</button>
+
+        <p id="status" class="status" role="status" aria-live="polite"></p>
       </div>
 
       <a class="back-link" href="index.html">Back to tiles</a>
     </main>
+
+    <script>
+      (() => {
+        const answerInput = document.getElementById("wordle-answer");
+        const checkButton = document.getElementById("check-answer");
+        const status = document.getElementById("status");
+        const targetAnswer = "peony";
+
+        function showMessage(message, type = "") {
+          status.textContent = message;
+          status.className = `status ${type}`.trim();
+        }
+
+        function verifyAnswer() {
+          const guess = answerInput.value.trim().toLowerCase();
+          if (guess === targetAnswer) {
+            showMessage("Correct! Loading your next puzzle...", "success");
+            window.location.href = "next-puzzle.html";
+          } else if (guess.length > 0) {
+            showMessage("Not quite—double check your Wordle result.", "error");
+          } else {
+            showMessage("");
+          }
+        }
+
+        checkButton.addEventListener("click", verifyAnswer);
+        answerInput.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            verifyAnswer();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
